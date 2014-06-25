@@ -122,4 +122,78 @@ describe Indexer do
     }
     expect(expected_hash).to eq hash_result
   end
+
+  it 'can index by more than one variable' do
+    array = [
+        {
+            :id=>3,
+            :name=>"Galaxyland",
+            :city=>"Edmonton",
+            :state=>"Alberta",
+            :country=>"Canada"
+        },
+        {
+            :id=>4,
+            :name=>"Heratage Park",
+            :city=>"Calgary",
+            :state=>"Alberta",
+            :country=>"Canada"
+        },
+        {
+            :id=>6,
+            :name=>"Playland (Vancouver)",
+            :city=>"Vancouver",
+            :state=>"British Columbia",
+            :country=>"Canada"
+        },
+        {
+            :id=>8,
+            :name=>"Crystal Palace Amusement Park",
+            :city=>"Dieppe",
+            :state=>"New Brunswick",
+            :country=>"Canada"
+        }
+    ]
+
+    expected_hash = Indexer.new(array).index_hash("state", "country")
+
+    hash_result = {
+        "Alberta, Canada" => [
+            {
+                :id => 3,
+                :name => "Galaxyland",
+                :city => "Edmonton",
+                :state => "Alberta",
+                :country => "Canada"
+            },
+            {
+                :id => 4,
+                :name => "Heratage Park",
+                :city => "Calgary",
+                :state => "Alberta",
+                :country => "Canada"
+            },
+        ],
+        "British Columbia, Canada" => [
+            {
+                :id => 6,
+                :name => "Playland (Vancouver)",
+                :city => "Vancouver",
+                :state => "British Columbia",
+                :country => "Canada"
+            },
+        ],
+        "New Brunswick, Canada" => [
+            {
+                :id => 8,
+                :name => "Crystal Palace Amusement Park",
+                :city => "Dieppe",
+                :state => "New Brunswick",
+                :country => "Canada"
+            }
+        ]
+    }
+
+    expect(expected_hash).to eq hash_result
+  end
 end
