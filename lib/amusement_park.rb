@@ -5,8 +5,10 @@ class AmusementPark
 
   def to_hash
     result = {}
-    new_key = @data.first[:id]
-    result[new_key] = @data.first
+    @data.each do |data|
+      new_key = data[:id]
+      result[new_key] = data
+    end
     result
   end
 end
